@@ -4,11 +4,14 @@ abstract class TimPekerja {
     private String id;
     private String nama;
     private Date tanggalMasuk;
-    private String idProyek;  // To store the assigned project
+    private String idProyek;
+    private String detail;
 
-    public TimPekerja(String id, String nama) {
+    public TimPekerja(String id, String nama, Date tanggalMasuk, String detail) {
         this.id = id;
         this.nama = nama;
+        this.tanggalMasuk = new Date();
+        this.detail = detail;
     }
 
     public abstract int Gaji(int durationProject);
@@ -47,5 +50,13 @@ abstract class TimPekerja {
 
     public String getIdProyek() {
         return idProyek;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 }
