@@ -1,7 +1,11 @@
+import java.util.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.lang.String;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -73,7 +77,7 @@ public class Main {
                     String privLocation = scanner.nextLine();
                     System.out.print("Masukkan Anggaran: ");
                     int privBudget = scanner.nextInt();
-                    scanner.nextLine();
+                    scanner.nextLine(); // consume newline
                     System.out.print("Masukkan Status: ");
                     String privStatus = scanner.nextLine();
                     System.out.print("Masukkan Nama Institution: ");
@@ -88,7 +92,7 @@ public class Main {
                     System.out.println("3. Tambahkan Kontraktor");
                     System.out.print("Masukkan Pilihan Anda: ");
                     int memberChoice = scanner.nextInt();
-                    scanner.nextLine();
+                    scanner.nextLine(); // consume newline
 
                     System.out.print("Masukkan ID: ");
                     String memberId = scanner.nextLine();
@@ -170,13 +174,13 @@ public class Main {
                     System.out.println("2. Buat Jasa Teknik Sipil ");
                     System.out.print("Masukkan Pilihan Anda: ");
                     int serviceChoice = scanner.nextInt();
-                    scanner.nextLine();
+                    scanner.nextLine(); // consume newline
 
                     System.out.print("Masukkan Nama Ahli: ");
                     String expertName = scanner.nextLine();
                     System.out.print("Masukkan Tarif per Desain: ");
                     double ratePerDesign = scanner.nextDouble();
-                    scanner.nextLine();
+                    scanner.nextLine(); // consume newline
 
                     switch (serviceChoice) {
                         case 1:
@@ -262,7 +266,6 @@ public class Main {
                         if (serv != null) {
                             serv.displayService();
                         }
-
                     }
                     break;
                 case 9:
@@ -361,5 +364,4 @@ public class Main {
             }
         }
     }
-
 }

@@ -1,7 +1,5 @@
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
-import java.lang.String;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,11 +8,6 @@ public class Main {
         GovermentProject[] projectsGov = new GovermentProject[10];
         PrivateProject[] projectsPri = new PrivateProject[10];
         TimPekerja[] teamMembers = new TimPekerja[10];
-
-        TimPekerja[] DevTenagaKerja = new TimPekerja[10];
-        TimPekerja[] DevKontraktor = new TimPekerja[10];
-        TimPekerja[] DevPengawas = new TimPekerja[10];
-
         Service[] services = new Service[10];
         Material[] materials = new Material[10];
         LaporanProyek[] laporanProyeks = new LaporanProyek[10];
@@ -73,7 +66,7 @@ public class Main {
                     String privLocation = scanner.nextLine();
                     System.out.print("Masukkan Anggaran: ");
                     int privBudget = scanner.nextInt();
-                    scanner.nextLine();
+                    scanner.nextLine(); // consume newline
                     System.out.print("Masukkan Status: ");
                     String privStatus = scanner.nextLine();
                     System.out.print("Masukkan Nama Institution: ");
@@ -88,77 +81,39 @@ public class Main {
                     System.out.println("3. Tambahkan Kontraktor");
                     System.out.print("Masukkan Pilihan Anda: ");
                     int memberChoice = scanner.nextInt();
-                    scanner.nextLine();
+                    scanner.nextLine(); // consume newline
 
                     System.out.print("Masukkan ID: ");
                     String memberId = scanner.nextLine();
                     System.out.print("Masukkan Nama: ");
                     String memberName = scanner.nextLine();
-                    System.out.print("Masukkan Tanggal Masuk (YYYY-MM-DD): ");
-                    String dateInput = scanner.nextLine();
+                    //System.out.print("Enter Date of Joining (YYYY-MM-DD): ");
+                    //String dateOfJoining = scanner.nextLine();
+                    //Date joiningDate = Date.valueOf(dateOfJoining);
 
-                    String shiftKerja = "";
-                    String proyekDiawasi = "";
-                    String keahlian = "";
-
-                    if (memberChoice == 1) {
-                        System.out.println("Masukkan Shift Kerja (Siang/Malam): ");
-                        shiftKerja = scanner.nextLine();
-                    } else if (memberChoice == 2) {
-                        System.out.println("Masukkan Proyek Diawasi (Ada/Tidak): ");
-                        proyekDiawasi = scanner.nextLine();
-                    } else if (memberChoice == 3) {
-                        System.out.println("Masukkan Keahlian (Bebas): ");
-                        keahlian = scanner.nextLine();
+                    switch (memberChoice) {
+                        case 1:
+                            teamMembers[teamMemberCount] = new TenagaKerja(memberId, memberName);
+                            break;
+                        case 2:
+                            teamMembers[teamMemberCount] = new PengawasProyek(memberId, memberName);
+                            break;
+                        case 3:
+                            teamMembers[teamMemberCount] = new Kontraktor(memberId, memberName);
+                            break;
+                        default:
+                            System.out.println("Pilihan Invalid.");
+                            continue;
                     }
-
-                    try {
-                        // Konversi string menjadi Date
-                        Date dateOfJoining = Date.valueOf(dateInput);
-
-                        // Format Date ke String
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        String formattedDate = dateFormat.format(dateOfJoining);
-
-                        switch (memberChoice) {
-                            case 1:
-                                DevTenagaKerja[teamMemberCount] = new TenagaKerja(memberId, memberName, dateOfJoining, shiftKerja);
-                                break;
-                            case 2:
-                                DevPengawas[teamMemberCount] = new PengawasProyek(memberId, memberName, dateOfJoining, proyekDiawasi);
-                                break;
-                            case 3:
-                                DevKontraktor[teamMemberCount] = new Kontraktor(memberId, memberName, dateOfJoining, keahlian);
-                                break;
-                            default:
-                                System.out.println("Pilihan Invalid.");
-                                continue;
-                        }
                     teamMemberCount++;
-                        System.out.println("Anggota berhasil ditambahkan!");
                     break;
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Format tanggal salah! Harus menggunakan format YYYY-MM-DD.");
-                    }
                 case 4:
                     System.out.print("Masukkan ID Team Member : ");
                     String tMemberId = scanner.nextLine();
                     System.out.print("Masukkan ID Proyek: ");
                     String tProjectId = scanner.nextLine();
 
-                    for (TimPekerja member : DevTenagaKerja) {
-                        if (member != null && member.getId().equals(tMemberId)) {
-                            member.TambahProyek(tProjectId);
-                            break;
-                        }
-                    }
-                    for (TimPekerja member : DevKontraktor) {
-                        if (member != null && member.getId().equals(tMemberId)) {
-                            member.TambahProyek(tProjectId);
-                            break;
-                        }
-                    }
-                    for (TimPekerja member : DevPengawas) {
+                    for (TimPekerja member : teamMembers) {
                         if (member != null && member.getId().equals(tMemberId)) {
                             member.TambahProyek(tProjectId);
                             break;
@@ -170,13 +125,13 @@ public class Main {
                     System.out.println("2. Buat Jasa Teknik Sipil ");
                     System.out.print("Masukkan Pilihan Anda: ");
                     int serviceChoice = scanner.nextInt();
-                    scanner.nextLine();
+                    scanner.nextLine(); // consume newline
 
                     System.out.print("Masukkan Nama Ahli: ");
                     String expertName = scanner.nextLine();
                     System.out.print("Masukkan Tarif per Desain: ");
                     double ratePerDesign = scanner.nextDouble();
-                    scanner.nextLine();
+                    scanner.nextLine(); // consume newline
 
                     switch (serviceChoice) {
                         case 1:
@@ -210,50 +165,9 @@ public class Main {
                     }
                     break;
                 case 7:
-                    System.out.println("=== Daftar Tenaga Kerja ===");
-                    for (TimPekerja member : DevTenagaKerja) {
+                    for (TimPekerja member : teamMembers) {
                         if (member != null) {
-                            System.out.println("ID: " + member.getId() + ",\nNama: " + member.getNama() +
-                                    ",\nID Project : " + member.getIdProyek() +
-                                    ",\nTanggal Masuk: " + member.getTanggalMasuk());
-                            if (member.getIdProyek() != null) {
-                                System.out.println("Masukkan Durasi: ");
-                                int durasi = scanner.nextInt();
-                                System.out.println("Gaji :" + member.Gaji(durasi) );
-                            } else {
-                                System.out.println("Gaji : Rp. 0");
-                            }
-                        }
-
-                    }
-                    System.out.println("=== Daftar Kontraktor ===");
-                    for (TimPekerja member : DevKontraktor) {
-                        if (member != null) {
-                            System.out.println("ID: " + member.getId() + ",\nNama: " + member.getNama() +
-                                    ",\nID Project : " + member.getIdProyek() +
-                                    ",\nTanggal Masuk: " + member.getTanggalMasuk());
-                            if (member.getIdProyek() != null) {
-                                System.out.println("Masukkan Durasi: ");
-                                int durasi = scanner.nextInt();
-                                System.out.println("Gaji :" + member.Gaji(durasi) );
-                            } else {
-                                System.out.println("Gaji : Rp. 0");
-                            }
-                        }
-                    }
-                    System.out.println("=== Daftar Pengawas ===");
-                    for (TimPekerja member : DevPengawas) {
-                        if (member != null) {
-                            System.out.println("ID: " + member.getId() + ",\nNama: " + member.getNama() +
-                                    ",\nID Project : " + member.getIdProyek() +
-                                    ",\nTanggal Masuk: " + member.getTanggalMasuk());
-                            if (member.getIdProyek() != null) {
-                                System.out.println("Masukkan Durasi: ");
-                                int durasi = scanner.nextInt();
-                                System.out.println("Gaji :" + member.Gaji(durasi) );
-                            } else {
-                                System.out.println("Gaji : Rp. 0");
-                            }
+                            System.out.println("ID: " + member.getId() + ", Nama: " + member.getNama() + ", ID Project : " + member.getIdProyek());
                         }
                     }
                     break;
@@ -262,7 +176,6 @@ public class Main {
                         if (serv != null) {
                             serv.displayService();
                         }
-
                     }
                     break;
                 case 9:
@@ -361,5 +274,4 @@ public class Main {
             }
         }
     }
-
 }
