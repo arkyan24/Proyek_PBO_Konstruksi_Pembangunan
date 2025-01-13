@@ -14,6 +14,7 @@ class Material {
     }
 
     public void addMaterial(int jumlah) {
+
         this.stok += jumlah;
     }
 
